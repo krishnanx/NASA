@@ -45,7 +45,7 @@ export default function SolarSystem() {
     // Textures
     const loader = new THREE.TextureLoader();
     const textures = {
-      Mercury: loader.load("/textures/mercury.jpg"),
+      Mercury: loader.load( "/textures/mercury.jpg"),
       Venus: loader.load("/textures/venus.jpg"),
       Earth: loader.load("/textures/earth.jpg"),
       Mars: loader.load("/textures/mars.jpg"),
@@ -164,7 +164,13 @@ export default function SolarSystem() {
     const planetMeshes = [];
     planets.forEach((p) => {
       const geo = new THREE.SphereGeometry(p.radius, 32, 32);
-      const mat = new THREE.MeshStandardMaterial({ map: textures[p.name] });
+const mat = new THREE.MeshStandardMaterial({
+  map: textures[p.name],
+  color: 0xffffff,       // ensures texture color is applied properly
+  metalness: 0,           // no metallic shine
+  roughness: 1,           // fully rough to reduce reflectivity
+  transparent: false      // ensures planet is fully opaque
+});
       const mesh = new THREE.Mesh(geo, mat);
       mesh.position.x = p.distance;
       mesh.userData = p; // full planet details
@@ -204,6 +210,13 @@ export default function SolarSystem() {
 
     const onPointerDown = (event) => {
       if (isDragging) return;
+        console.log("Clicked!", mouse, intersects);
+        if (intersects.length > 0) {
+        console.log("Hit planet:", intersects[0].object.userData.englishName);
+        setSelectedPlanet(intersects[0].object.userData);
+        } else {
+        console.log("Missed planet");
+        }
 
       const rect = renderer.domElement.getBoundingClientRect();
       mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
