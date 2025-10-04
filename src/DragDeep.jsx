@@ -162,7 +162,7 @@ const DeepZoomViewer = () => {
       }}
     >
       {/* Viewer */}
-      <div ref={viewerRef} style={{ width: "100%", height: "100%" }} />
+     <div ref={viewerRef} style={{ width: "100%", height: "100%" }} />
 
       {/* Bottom message */}
       <div
