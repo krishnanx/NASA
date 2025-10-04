@@ -4,6 +4,7 @@ import React, { useRef, useEffect, useState } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import SolarSystemLoading from "./Loader";
+import { useNavigate } from "react-router-dom";
 
 const planetData = {
   Mercury: {
@@ -96,14 +97,17 @@ export default function SolarSystem() {
   const raycasterRef = useRef(new THREE.Raycaster());
   const mouseRef = useRef(new THREE.Vector2());
   const planetMeshesRef = useRef([]);
-    const [isLoading, setIsLoading] = useState(true);
-    
+  const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
       // Simulate loading (replace this with actual load trigger later)
-      useEffect(() => {
-        const timer = setTimeout(() => setIsLoading(false), 3000);
-        return () => clearTimeout(timer);
-      }, []);
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 3000);
+    return () => clearTimeout(timer);
+  }, []);
     
+  const handleNavigate = () => {
+    navigate("/planet",{ state: selectedPlanet })
+  }
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -650,7 +654,7 @@ export default function SolarSystem() {
 
             {/* Know More Button */}
             <button
-              onClick={() => alert("Know More clicked (add navigation here)")}
+              onClick={() => handleNavigate()}
               style={{
                 width: "100%",
                 padding: "10px",
