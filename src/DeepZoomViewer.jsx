@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ZoomIn, ZoomOut, Home, Maximize2, RotateCw, Info, Upload } from 'lucide-react';
+import { useSelector } from 'react-redux';
+import { setEspNo } from './Store/espSlice';
 
 const DeepZoomViewer = () => {
   const viewerRef = useRef(null);
@@ -14,10 +16,13 @@ const DeepZoomViewer = () => {
   const [imageInfo, setImageInfo] = useState(null);
   const [tileLoadCount, setTileLoadCount] = useState(0);
   const [imageList] = useState([
-    { name: 'Test Output Image', url: 'http://localhost:3000/dzimages/test_output.dzi', size: 'Default' },
+    { name: 'Test Output Image', url: `./dzimages/${espNo}test_output.dzi', size: 'Default' `},
   ]);
   const [selectedImage, setSelectedImage] = useState(0);
    
+
+  const espNo = useSelector((state) => state.espNo)
+
   useEffect(() => {
     const initViewer = async () => {
       const OpenSeadragon = (await import('openseadragon')).default;
@@ -30,7 +35,8 @@ const DeepZoomViewer = () => {
 
         osdRef.current = OpenSeadragon({
           element: viewerRef.current,
-          tileSources: customDzi || imageList[selectedImage].url,
+          //tileSources: customDzi || imageList[selectedImage].url,
+          tileSources:  `/test_output/${espNo}/test_output.dzi`,
           
           prefixUrl: 'https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/images/',
           animationTime: 0.5,
@@ -177,7 +183,7 @@ osdRef.current.addHandler('fully-loaded-change', (event) => {
   const loadCustomDzi = () => {
     if (customDzi && osdRef.current) {
       setIsLoading(true);
-      osdRef.current.open(customDzi);
+      osdRef.current.open(`devarc/${espNo}/image.dzi`);
     }
   };
 

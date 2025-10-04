@@ -136,7 +136,7 @@ const DeepZoomViewer = () => {
         prefixUrl:
           "https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/images/",
         showNavigationControl: true,
-        tileSources: "/dzimages/test_output.dzi", // ✅ file from public/
+        tileSources: "/test_output/5/test_output.dzi", // ✅ file from public/
       });
 
       // Debugging
@@ -158,7 +158,7 @@ const DeepZoomViewer = () => {
         position: "relative",
         width: "100%",
         height: "100vh",
-        background: "#111",
+        background: "black",
       }}
     >
       {/* Viewer */}

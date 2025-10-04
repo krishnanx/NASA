@@ -683,3 +683,5 @@ export default function SolarSystem() {
     />
   </div>
 );}
+      {/* 3D Canvas */}
+      
