@@ -1,15 +1,16 @@
+// src/components/SolarSystem.jsx
 import React, { useRef, useEffect } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 export default function SolarSystem() {
-  const containerRef = useRef(null);
+  const containerRef = useRef();
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    // Scene, camera, renderer
+    // Scene setup
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
       45,
@@ -26,15 +27,20 @@ export default function SolarSystem() {
     // Controls
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
-    controls.dampingFactor = 0.05;
 
-    // Lighting
-    const sunLight = new THREE.PointLight(0xffffff, 2, 0);
+    // Lights
+    const sunLight = new THREE.PointLight(0xffffff, 2);
     sunLight.position.set(0, 0, 0);
     scene.add(sunLight);
     scene.add(new THREE.AmbientLight(0x333333));
 
-    // Textures loader
+    // Sun
+    const sunGeo = new THREE.SphereGeometry(10, 64, 64);
+    const sunMat = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+    const sun = new THREE.Mesh(sunGeo, sunMat);
+    scene.add(sun);
+
+    // Textures
     const loader = new THREE.TextureLoader();
     const textures = {
       Mercury: loader.load( "/textures/mercury.jpg"),
@@ -47,13 +53,7 @@ export default function SolarSystem() {
       Neptune: loader.load("/textures/neptune.jpg"),
     };
 
-    // Sun
-    const sunGeo = new THREE.SphereGeometry(10, 64, 64);
-    const sunMat = new THREE.MeshBasicMaterial({ color: 0xffff00 });
-    const sun = new THREE.Mesh(sunGeo, sunMat);
-    scene.add(sun);
-
-    // Planet data
+    // Planets
     const planets = [
       { name: "Mercury", radius: 1, distance: 15, speed: 0.04 },
       { name: "Venus", radius: 2, distance: 22, speed: 0.015 },
@@ -68,7 +68,6 @@ export default function SolarSystem() {
     const planetMeshes = [];
 
     planets.forEach((p) => {
-      // Planet mesh
       const geo = new THREE.SphereGeometry(p.radius, 32, 32);
 const mat = new THREE.MeshStandardMaterial({
   map: textures[p.name],
@@ -88,10 +87,15 @@ const mat = new THREE.MeshStandardMaterial({
       ring.rotation.x = Math.PI / 2;
       scene.add(ring);
 
-      planetMeshes.push({ mesh, distance: p.distance, speed: p.speed, angle: Math.random() * Math.PI * 2 });
+      planetMeshes.push({
+        mesh,
+        distance: p.distance,
+        speed: p.speed,
+        angle: Math.random() * Math.PI * 2,
+      });
     });
 
-    // Animate
+    // Animation
     const animate = () => {
       planetMeshes.forEach((p) => {
         p.angle += p.speed;
@@ -104,7 +108,6 @@ const mat = new THREE.MeshStandardMaterial({
     };
     animate();
 
-    // Handle resize
     const handleResize = () => {
       camera.aspect = container.clientWidth / container.clientHeight;
       camera.updateProjectionMatrix();
@@ -112,12 +115,11 @@ const mat = new THREE.MeshStandardMaterial({
     };
     window.addEventListener("resize", handleResize);
 
-    // Cleanup
     return () => {
       controls.dispose();
       renderer.dispose();
       window.removeEventListener("resize", handleResize);
-      if (container) container.removeChild(renderer.domElement);
+      container.removeChild(renderer.domElement);
     };
   }, []);
 
