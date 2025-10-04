@@ -37,7 +37,7 @@ export default function SolarSystem() {
     // Textures loader
     const loader = new THREE.TextureLoader();
     const textures = {
-      Mercury: loader.load("/textures/mercury.jpg"),
+      Mercury: loader.load( "/textures/mercury.jpg"),
       Venus: loader.load("/textures/venus.jpg"),
       Earth: loader.load("/textures/earth.jpg"),
       Mars: loader.load("/textures/mars.jpg"),
@@ -70,7 +70,13 @@ export default function SolarSystem() {
     planets.forEach((p) => {
       // Planet mesh
       const geo = new THREE.SphereGeometry(p.radius, 32, 32);
-      const mat = new THREE.MeshStandardMaterial({ map: textures[p.name] });
+const mat = new THREE.MeshStandardMaterial({
+  map: textures[p.name],
+  color: 0xffffff,       // ensures texture color is applied properly
+  metalness: 0,           // no metallic shine
+  roughness: 1,           // fully rough to reduce reflectivity
+  transparent: false      // ensures planet is fully opaque
+});
       const mesh = new THREE.Mesh(geo, mat);
       mesh.position.x = p.distance;
       scene.add(mesh);
