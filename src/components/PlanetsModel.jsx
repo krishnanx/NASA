@@ -123,7 +123,9 @@ import planets from "./planets"; // ✅ your planets data
 import "./PlanetsModel.css";
 import { useLocation,useNavigate } from "react-router-dom";
 import Tooltip from "./Tooltip";
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 export default function PlanetModel() {
 
   const location = useLocation();
@@ -135,13 +137,21 @@ export default function PlanetModel() {
   const canvasRef = useRef(null);
   const planetMeshRef = useRef(null);
   const handleDeepZoom = () => {
-    if(planetName == "Mars"){
-      navigate("/planet/explore")
+    if (planetName === "Mars") {
+      navigate("/planet/explore");
+    } else {
+      toast.info("Coming soon! Meanwhile, check out Mars 🌌", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        closeButton:false,
+        onClick: () => navigate("/planet",{ state: "Mars" })
+      });
     }
-    else{
-
-    }
-  }
+  };
   useEffect(() => {
     if (!planet || !canvasRef.current) return;
 
@@ -226,6 +236,17 @@ export default function PlanetModel() {
 
   return (
     <div className="planet-container">
+       <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <div className="planet-header">
         <div className="planet-info">
           <h1 className="planet-name">{planet.name}</h1>
