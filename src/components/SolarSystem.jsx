@@ -443,6 +443,7 @@ export default function SolarSystem() {
     return (
     <div style={{ display: "flex", width: "100vw", minHeight: "100vh", overflow: "hidden", position: "relative" }}>
         {/* Info Panel */}
+{/* heading*/}
         <h1
         style={{
           position: "absolute",
@@ -462,138 +463,177 @@ export default function SolarSystem() {
       >
         NASAverse
       </h1>
-        <div
-            style={{
-            position: "absolute",
-            left: 0,
-            top: 0,
-            bottom: 0,
-            width: "400px",
-            backgroundColor: "#1a1a2e",
-            borderRight: "2px solid #4a4a6a",
-            boxShadow: "5px 0 15px rgba(0,0,0,0.5)",
-            transform: selectedPlanet ? "translateX(0)" : "translateX(-100%)",
-            transition: "transform 0.5s ease",
-           
-            padding: "30px",
-            color: "white",
-            overflowY: "auto",
-            zIndex: 10,
-            }}
-        >
-            {selectedPlanet && (
-            <>
-                {/* Close Button (top-right) */}
-                <button
-                onClick={() => setSelectedPlanet(null)}
-                style={{
-                    position: "absolute",
-                    top: "10px",
-                    right: "10px",
-                    background: "transparent",
-                    border: "none",
-                    fontSize: "1.5em",
-                    color: "white",
-                    cursor: "pointer",
-                }}
-                >
-                ✕
-                </button>
+      <div
+  style={{
+    position: "absolute",
+    left: 0,
+    top: 0,
+    bottom: 0,
+    width: "420px",
+    backgroundColor: "#1a1a2e",
+    borderRight: "2px solid #4a4a6a",
+    boxShadow: "5px 0 15px rgba(0,0,0,0.5)",
+    transform: selectedPlanet ? "translateX(0)" : "translateX(-100%)",
+    transition: "transform 0.5s ease",
+    padding: "40px 35px", // ✅ more breathing space (vertical & horizontal)
+    color: "white",
+    overflowY: "auto",
+    zIndex: 10,
+    fontFamily: "Segoe UI, sans-serif",
+    lineHeight: 1.6,
+  }}
+>
+  {selectedPlanet && (
+    <>
+      {/* Close Button */}
+      <button
+        onClick={() => setSelectedPlanet(null)}
+        style={{
+          position: "absolute",
+          top: "15px",
+          right: "15px",
+          background: "transparent",
+          border: "none",
+          fontSize: "1.8em",
+          color: "white",
+          cursor: "pointer",
+        }}
+      >
+        ✕
+      </button>
 
-            <h2
-              style={{
-                fontSize: "2em",
-                marginTop: 0,
-                marginBottom: "10px",
-                background: "linear-gradient(45deg, #667eea 0%, #764ba2 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
-            >
-              {planetData[selectedPlanet].name}
-            </h2>
+      {/* Planet Name */}
+      <h2
+        style={{
+          fontSize: "2.4em",
+          marginTop: "10px",
+          marginBottom: "20px",
+          background: "linear-gradient(45deg, #667eea 0%, #764ba2 100%)",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+          textAlign: "center",
+          letterSpacing: "1px",
+        }}
+      >
+        {planetData[selectedPlanet].name}
+      </h2>
 
-            <p
-              style={{
-                fontSize: "1em",
-                color: "#b0b0d0",
-                marginBottom: "25px",
-                fontStyle: "italic",
-              }}
-            >
-              {planetData[selectedPlanet].description}
-            </p>
+      {/* Description */}
+      <p
+        style={{
+          fontSize: "1.15em",
+          color: "#b0b0d0",
+          marginBottom: "35px",
+          fontStyle: "italic",
+          textAlign: "center",
+        }}
+      >
+        {planetData[selectedPlanet].description}
+      </p>
 
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: "15px",
-                marginBottom: "20px",
-              }}
-            >
-              <div>
-                <strong style={{ color: "#8b8baa" }}>Diameter:</strong>
-                <p>{planetData[selectedPlanet].diameter}</p>
-              </div>
-              <div>
-                <strong style={{ color: "#8b8baa" }}>Distance:</strong>
-                <p>{planetData[selectedPlanet].distance}</p>
-              </div>
-              <div>
-                <strong style={{ color: "#8b8baa" }}>Day Length:</strong>
-                <p>{planetData[selectedPlanet].dayLength}</p>
-              </div>
-              <div>
-                <strong style={{ color: "#8b8baa" }}>Year Length:</strong>
-                <p>{planetData[selectedPlanet].yearLength}</p>
-              </div>
-              <div>
-                <strong style={{ color: "#8b8baa" }}>Moons:</strong>
-                <p>{planetData[selectedPlanet].moons}</p>
-              </div>
-            </div>
-
-            <div
-              style={{
-                backgroundColor: "#2a2a4a",
-                padding: "12px",
-                borderRadius: "10px",
-                marginBottom: "15px",
-              }}
-            >
-              <strong style={{ color: "#8b8baa" }}>Fun Fact:</strong>
-              <p>{planetData[selectedPlanet].facts}</p>
-            </div>
-
-            <button
-              onClick={handleNavigate}
-              style={{
-                width: "100%",
-                padding: "10px",
-                fontSize: "1em",
-                backgroundColor: "#667eea",
-                color: "white",
-                border: "none",
-                borderRadius: "8px",
-                cursor: "pointer",
-                fontWeight: "bold",
-              }}
-              onMouseOver={(e) =>
-                (e.target.style.backgroundColor = "#764ba2")
-              }
-              onMouseOut={(e) =>
-                (e.target.style.backgroundColor = "#667eea")
-              }
-            >
-              Know More
-            </button>
-          </>
-        )}
+      {/* Planet Info Grid */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: "20px 25px",
+          marginBottom: "30px",
+        }}
+      >
+        <div>
+          <strong style={{ color: "#8b8baa", fontSize: "1.05em" }}>
+            Diameter:
+          </strong>
+          <p style={{ fontSize: "1.1em", marginTop: "6px" }}>
+            {planetData[selectedPlanet].diameter}
+          </p>
+        </div>
+        <div>
+          <strong style={{ color: "#8b8baa", fontSize: "1.05em" }}>
+            Distance:
+          </strong>
+          <p style={{ fontSize: "1.1em", marginTop: "6px" }}>
+            {planetData[selectedPlanet].distance}
+          </p>
+        </div>
+        <div>
+          <strong style={{ color: "#8b8baa", fontSize: "1.05em" }}>
+            Day Length:
+          </strong>
+          <p style={{ fontSize: "1.1em", marginTop: "6px" }}>
+            {planetData[selectedPlanet].dayLength}
+          </p>
+        </div>
+        <div>
+          <strong style={{ color: "#8b8baa", fontSize: "1.05em" }}>
+            Year Length:
+          </strong>
+          <p style={{ fontSize: "1.1em", marginTop: "6px" }}>
+            {planetData[selectedPlanet].yearLength}
+          </p>
+        </div>
+        <div>
+          <strong style={{ color: "#8b8baa", fontSize: "1.05em" }}>
+            Moons:
+          </strong>
+          <p style={{ fontSize: "1.1em", marginTop: "6px" }}>
+            {planetData[selectedPlanet].moons}
+          </p>
+        </div>
       </div>
 
-      {/* 3D Scene */}
-      <div ref={containerRef} style={{ flex: 1 }} />
+      {/* Fun Fact Box */}
+      <div
+        style={{
+          backgroundColor: "#2a2a4a",
+          padding: "32px 20px",
+          borderRadius: "12px",
+          marginBottom: "25px",
+          fontSize: "1.1em",
+        }}
+      >
+        <strong style={{ color: "#8b8baa", display: "block", marginBottom: "6px" }}>
+          Fun Fact:
+        </strong>
+        <p style={{ margin: 0 }}>{planetData[selectedPlanet].facts}</p>
+      </div>
+
+      {/* Know More Button */}
+      <button
+        onClick={handleNavigate}
+        style={{
+          width: "100%",
+          padding: "14px",
+          fontSize: "1.15em",
+          backgroundColor: "#667eea",
+          color: "white",
+          border: "none",
+          borderRadius: "10px",
+          cursor: "pointer",
+          fontWeight: "bold",
+          letterSpacing: "0.5px",
+          transition: "background 0.3s ease",
+        }}
+        onMouseOver={(e) => (e.target.style.backgroundColor = "#764ba2")}
+        onMouseOut={(e) => (e.target.style.backgroundColor = "#667eea")}
+      >
+        Know More
+      </button>
+    </>
+  )}
+</div>
+
+
+        {/* 3D solar system canvas */}
+        <div
+        ref={containerRef}
+        style={{
+
+            flex: 1,
+            transition: "transform 0.5s ease",                       
+            transform: selectedPlanet ? "translateX(200px)" : "translateX(0)"  
+        }}
+        />
     </div>
   );
 }
