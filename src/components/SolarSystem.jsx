@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import SolarSystemLoading from "./Loader";
+import Loader from "./Loader";
 import { useNavigate } from "react-router-dom";
 
     const planetData = {
@@ -106,10 +106,17 @@ export default function SolarSystem() {
   const handleNavigate = () => {
     navigate("/planet",{ state: selectedPlanet })
   }
+
+//   setTimeout(() => {
+//   console.log("5 seconds have passed!");
+//   setIsLoading(false);
+// }, 5000);
+
+
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
-
+  
         // Scene, camera, renderer
         const scene = new THREE.Scene();
         sceneRef.current = scene;
@@ -484,11 +491,30 @@ export default function SolarSystem() {
         };
     }, []);
     //   if(isLoading){
-    //     return <SolarSystemLoading/>
+    //     return <Loader/>
     //   }
     return (
     <div style={{ display: "flex", width: "100vw", minHeight: "100vh", overflow: "hidden", position: "relative" }}>
         {/* Info Panel */}
+        <h1
+        style={{
+          position: "absolute",
+          top: "30px",
+          left: selectedPlanet ? "50%" : "50px",
+          transform: selectedPlanet ? "translateX(50%)" : "translateX(0)",
+          fontSize: "3em",
+          fontWeight: "bold",
+          background: "linear-gradient(45deg, #667eea 0%, #764ba2 100%)",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+          margin: 0,
+          zIndex: 20,
+          transition: "all 0.5s ease",
+          pointerEvents: "none",
+        }}
+      >
+        NASAverse
+      </h1>
         <div
             style={{
             position: "absolute",
