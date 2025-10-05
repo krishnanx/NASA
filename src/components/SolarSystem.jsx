@@ -4,105 +4,97 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import Loader from "./Loader";
 import { useNavigate } from "react-router-dom";
 
-    const planetData = {
-    Mercury: {
-        name: "Mercury",
-        description: "The smallest planet and closest to the Sun",
-        diameter: "4,879 km",
-        distance: "57.9 million km from Sun",
-        dayLength: "59 Earth days",
-        yearLength: "88 Earth days",
-        moons: "0",
-        facts: "Mercury has the most extreme temperature variations in the solar system"
-    },
-    Venus: {
-        name: "Venus",
-        description: "The hottest planet with a thick toxic atmosphere",
-        diameter: "12,104 km",
-        distance: "108.2 million km from Sun",
-        dayLength: "243 Earth days",
-        yearLength: "225 Earth days",
-        moons: "0",
-        facts: "Venus rotates backwards compared to most planets"
-    },
-    Earth: {
-        name: "Earth",
-        description: "Our home planet, the only known planet with life",
-        diameter: "12,742 km",
-        distance: "149.6 million km from Sun",
-        dayLength: "24 hours",
-        yearLength: "365.25 days",
-        moons: "1 (The Moon)",
-        facts: "Earth is the only planet not named after a god"
-    },
-    Mars: {
-        name: "Mars",
-        description: "The Red Planet with the largest volcano in the solar system",
-        diameter: "6,779 km",
-        distance: "227.9 million km from Sun",
-        dayLength: "24.6 hours",
-        yearLength: "687 Earth days",
-        moons: "2 (Phobos and Deimos)",
-        facts: "Mars has seasons similar to Earth due to its tilted axis"
-    },
-    Jupiter: {
-        name: "Jupiter",
-        description: "The largest planet, a gas giant with a Great Red Spot",
-        diameter: "139,820 km",
-        distance: "778.5 million km from Sun",
-        dayLength: "9.9 hours",
-        yearLength: "12 Earth years",
-        moons: "95+ known moons",
-        facts: "Jupiter's mass is greater than all other planets combined"
-    },
-    Saturn: {
-        name: "Saturn",
-        description: "Known for its spectacular ring system",
-        diameter: "116,460 km",
-        distance: "1.43 billion km from Sun",
-        dayLength: "10.7 hours",
-        yearLength: "29 Earth years",
-        moons: "146+ known moons",
-        facts: "Saturn's rings are made mostly of ice particles"
-    },
-    Uranus: {
-        name: "Uranus",
-        description: "An ice giant that rotates on its side",
-        diameter: "50,724 km",
-        distance: "2.87 billion km from Sun",
-        dayLength: "17.2 hours",
-        yearLength: "84 Earth years",
-        moons: "27+ known moons",
-        facts: "Uranus appears blue-green due to methane in its atmosphere"
-    },
-    Neptune: {
-        name: "Neptune",
-        description: "The windiest planet with supersonic storms",
-        diameter: "49,244 km",
-        distance: "4.50 billion km from Sun",
-        dayLength: "16 hours",
-        yearLength: "165 Earth years",
-        moons: "14+ known moons",
-        facts: "Neptune has the fastest winds in the solar system"
-    }
-    };
+const planetData = {
+  Mercury: {
+    name: "Mercury",
+    description: "The smallest planet and closest to the Sun",
+    diameter: "4,879 km",
+    distance: "57.9 million km from Sun",
+    dayLength: "59 Earth days",
+    yearLength: "88 Earth days",
+    moons: "0",
+    facts: "Mercury has the most extreme temperature variations in the solar system",
+  },
+  Venus: {
+    name: "Venus",
+    description: "The hottest planet with a thick toxic atmosphere",
+    diameter: "12,104 km",
+    distance: "108.2 million km from Sun",
+    dayLength: "243 Earth days",
+    yearLength: "225 Earth days",
+    moons: "0",
+    facts: "Venus rotates backwards compared to most planets",
+  },
+  Earth: {
+    name: "Earth",
+    description: "Our home planet, the only known planet with life",
+    diameter: "12,742 km",
+    distance: "149.6 million km from Sun",
+    dayLength: "24 hours",
+    yearLength: "365.25 days",
+    moons: "1 (The Moon)",
+    facts: "Earth is the only planet not named after a god",
+  },
+  Mars: {
+    name: "Mars",
+    description: "The Red Planet with the largest volcano in the solar system",
+    diameter: "6,779 km",
+    distance: "227.9 million km from Sun",
+    dayLength: "24.6 hours",
+    yearLength: "687 Earth days",
+    moons: "2 (Phobos and Deimos)",
+    facts: "Mars has seasons similar to Earth due to its tilted axis",
+  },
+  Jupiter: {
+    name: "Jupiter",
+    description: "The largest planet, a gas giant with a Great Red Spot",
+    diameter: "139,820 km",
+    distance: "778.5 million km from Sun",
+    dayLength: "9.9 hours",
+    yearLength: "12 Earth years",
+    moons: "95+ known moons",
+    facts: "Jupiter's mass is greater than all other planets combined",
+  },
+  Saturn: {
+    name: "Saturn",
+    description: "Known for its spectacular ring system",
+    diameter: "116,460 km",
+    distance: "1.43 billion km from Sun",
+    dayLength: "10.7 hours",
+    yearLength: "29 Earth years",
+    moons: "146+ known moons",
+    facts: "Saturn's rings are made mostly of ice particles",
+  },
+  Uranus: {
+    name: "Uranus",
+    description: "An ice giant that rotates on its side",
+    diameter: "50,724 km",
+    distance: "2.87 billion km from Sun",
+    dayLength: "17.2 hours",
+    yearLength: "84 Earth years",
+    moons: "27+ known moons",
+    facts: "Uranus appears blue-green due to methane in its atmosphere",
+  },
+  Neptune: {
+    name: "Neptune",
+    description: "The windiest planet with supersonic storms",
+    diameter: "49,244 km",
+    distance: "4.50 billion km from Sun",
+    dayLength: "16 hours",
+    yearLength: "165 Earth years",
+    moons: "14+ known moons",
+    facts: "Neptune has the fastest winds in the solar system",
+  },
+};
 
 export default function SolarSystem() {
   const containerRef = useRef(null);
   const [selectedPlanet, setSelectedPlanet] = useState(null);
-  const sceneRef = useRef(null);
-  const cameraRef = useRef(null);
   const raycasterRef = useRef(new THREE.Raycaster());
   const mouseRef = useRef(new THREE.Vector2());
   const planetMeshesRef = useRef([]);
-  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-      // Simulate loading (replace this with actual load trigger later)
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 3000);
-    return () => clearTimeout(timer);
-  }, []);
-    
+
   const handleNavigate = () => {
     navigate("/planet",{ state: selectedPlanet })
   }
@@ -119,7 +111,7 @@ export default function SolarSystem() {
   
         // Scene, camera, renderer
         const scene = new THREE.Scene();
-        sceneRef.current = scene;
+        //sceneRef.current = scene;
         
         // Add realistic space background with planets, nebulae, and varied celestial objects
             scene.background = new THREE.Color(0x000000);
@@ -254,118 +246,106 @@ export default function SolarSystem() {
         2000
         );
         camera.position.set(0, 100, 200);
-        cameraRef.current = camera;
+        //cameraRef.current = camera;
 
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize(container.clientWidth, container.clientHeight);
-        container.appendChild(renderer.domElement);
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    container.appendChild(renderer.domElement);
 
-        // Controls
-    // Controls with zoom limits and scroll handling
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
     controls.minDistance = 120;
     controls.maxDistance = 350;
 
-    let zoomLock = false;
-    const defaultDistance = camera.position.length();
+    const sunLight = new THREE.PointLight(0xffffff, 500, 0, 1);
+    sunLight.position.set(0, 0, 0);
+    scene.add(sunLight);
+    scene.add(new THREE.AmbientLight(0x404040));
 
-    function enablePageScroll(enable, direction = 1) {
-    if (enable) {
-        document.body.style.overflowY = "auto";
-        renderer.domElement.style.pointerEvents = "none";
-        window.scrollBy({
-        top: direction * 200,
-        behavior: "smooth",
-        });
-    } else {
-        document.body.style.overflowY = "hidden";
-        renderer.domElement.style.pointerEvents = "auto";
-    }
-    }
-
-    let scrollDirection = 1;
-    const wheelHandler = (e) => {
-    scrollDirection = e.deltaY > 0 ? 1 : -1;
+    const loader = new THREE.TextureLoader();
+    const textures = {
+      Mercury: loader.load("/textures/mercury.jpg"),
+      Venus: loader.load("/textures/venus.jpg"),
+      Earth: loader.load("/textures/earth.jpg"),
+      Mars: loader.load("/textures/mars.jpg"),
+      Jupiter: loader.load("/textures/jupiter.jpg"),
+      Saturn: loader.load("/textures/saturn.jpg"),
+      SaturnRing: loader.load("/textures/saturn_ring.jpg"),
+      Uranus: loader.load("/textures/uranus.jpg"),
+      Neptune: loader.load("/textures/neptune.jpg"),
+      Sun: loader.load("/textures/sun.jpg"),
     };
-    window.addEventListener("wheel", wheelHandler);
 
-    controls.addEventListener("change", () => {
-    const currentDistance = camera.position.length();
-    const zoomRatio = currentDistance / defaultDistance;
+    // Sun
+    const sunGeo = new THREE.SphereGeometry(10, 64, 64);
+    const sunMat = new THREE.MeshBasicMaterial({ map: textures.Sun });
+    const sun = new THREE.Mesh(sunGeo, sunMat);
+    scene.add(sun);
 
-    if (zoomRatio < 0.5 || zoomRatio > 2.5) {
-        if (!zoomLock) {
-        zoomLock = true;
-        controls.enableZoom = false;
-        enablePageScroll(true, scrollDirection);
-        console.log("🔒 Zoom locked — switching to scroll");
-        }
-    } else if (zoomLock) {
-        zoomLock = false;
-        controls.enableZoom = true;
-        enablePageScroll(false);
-        console.log("🔓 Zoom re-enabled");
-    }
-    });
-        // Lighting
-        const sunLight = new THREE.PointLight(0xffffff, 500, 0, 1);
-        sunLight.position.set(0, 0, 0);
-        scene.add(sunLight);
-        scene.add(new THREE.AmbientLight(0x404040));
+    // Planet definitions
+    const planets = [
+      { name: "Mercury", radius: 1, distance: 15, speed: 0.02 },
+      { name: "Venus", radius: 2, distance: 22, speed: 0.013 },
+      { name: "Earth", radius: 2.2, distance: 30, speed: 0.009 },
+      { name: "Mars", radius: 1.5, distance: 38, speed: 0.006 },
+      { name: "Jupiter", radius: 5, distance: 50, speed: 0.002 },
+      { name: "Saturn", radius: 4.5, distance: 65, speed: 0.001 },
+      { name: "Uranus", radius: 3.5, distance: 80, speed: 0.0009 },
+      { name: "Neptune", radius: 3.5, distance: 95, speed: 0.001 },
+    ];
 
-        // Textures loader
-        const loader = new THREE.TextureLoader();
-        const textures = {
-        Mercury: loader.load("/textures/mercury.jpg"),
-        Venus: loader.load("/textures/venus.jpg"),
-        Earth: loader.load("/textures/earth.jpg"),
-        Mars: loader.load("/textures/mars.jpg"),
-        Jupiter: loader.load("/textures/jupiter.jpg"),
-        Saturn: loader.load("/textures/saturn.jpg"),
-        Uranus: loader.load("/textures/uranus.jpg"),
-        Neptune: loader.load("/textures/neptune.jpg"),
-        Sun: loader.load("/textures/sun.jpg")
-        };
+    const planetMeshes = [];
 
-        // Sun with texture and glow
-        const sunGeo = new THREE.SphereGeometry(10, 64, 64);
-        const sunMat = new THREE.MeshBasicMaterial({
-        map: textures.Sun,
-        emissive: 0xffcc33,
-        emissiveIntensity: 0.8,
+    planets.forEach((p) => {
+      // Saturn special case
+      if (p.name === "Saturn") {
+        const saturnGroup = new THREE.Group();
+        scene.add(saturnGroup);
+
+        const geo = new THREE.SphereGeometry(p.radius, 64,64);
+        const mat = new THREE.MeshStandardMaterial({ map: textures.Saturn, });
+        const saturnMesh = new THREE.Mesh(geo, mat);
+        saturnMesh.userData = { planetName: p.name };
+        saturnGroup.add(saturnMesh);
+
+        const ringGeo = new THREE.RingGeometry(
+          p.radius + 0.8,
+          p.radius + 6.0,
+          128
+        );
+        const ringMat = new THREE.MeshBasicMaterial({
+          map: textures.SaturnRing,
+          side: THREE.DoubleSide,
+          transparent: true,
         });
-        const sun = new THREE.Mesh(sunGeo, sunMat);
-        scene.add(sun);
+        const ring = new THREE.Mesh(ringGeo, ringMat);
+        ring.position.set(0, 0, 0); 
+        ring.rotation.x = Math.PI / 2.8;
+        saturnGroup.add(ring);
 
-        // Optional: soft glow sprite
-        const glowTexture = loader.load("/textures/glow.png");
-        const glowMaterial = new THREE.SpriteMaterial({
-        map: glowTexture,
-        color: 0xffcc66,
-        blending: THREE.AdditiveBlending,
-        transparent: true,
+        // Orbit ring (around Sun)
+        const orbitGeo = new THREE.RingGeometry(
+          p.distance - 0.05,
+          p.distance + 0.05,
+          64
+        );
+        const orbitMat = new THREE.MeshBasicMaterial({
+          color: 0xffffff,
+          side: THREE.DoubleSide,
         });
-        const glowSprite = new THREE.Sprite(glowMaterial);
-        glowSprite.scale.set(50, 50, 1);
-        sun.add(glowSprite);
+        const orbit = new THREE.Mesh(orbitGeo, orbitMat);
+        orbit.rotation.x = Math.PI / 2;
+        scene.add(orbit);
 
-        // Planet data
-        const planets = [
-        { name: "Mercury", radius: 1, distance: 15, speed: 0.02 },
-        { name: "Venus", radius: 2, distance: 22, speed: 0.013 },
-        { name: "Earth", radius: 2.2, distance: 30, speed: 0.009 },
-        { name: "Mars", radius: 1.5, distance: 38, speed: 0.006 },
-        { name: "Jupiter", radius: 5, distance: 50, speed: 0.002 },
-        { name: "Saturn", radius: 4.5, distance: 65, speed: 0.001 },
-        { name: "Uranus", radius: 3.5, distance: 80, speed: 0.0009 },
-        { name: "Neptune", radius: 3.5, distance: 95, speed: 0.001 },
-        ];
-
-        const planetMeshes = [];
-
-        planets.forEach((p) => {
+        planetMeshes.push({
+          group: saturnGroup,
+          mesh: saturnMesh,
+          distance: p.distance,
+          speed: p.speed,
+          angle: Math.random() * Math.PI * 2,
+        });
+      } else {
         const geo = new THREE.SphereGeometry(p.radius, 32, 32);
         const mat = new THREE.MeshStandardMaterial({ map: textures[p.name] });
         const mesh = new THREE.Mesh(geo, mat);
@@ -373,120 +353,87 @@ export default function SolarSystem() {
         mesh.userData = { planetName: p.name };
         scene.add(mesh);
 
-        const ringGeo = new THREE.RingGeometry(p.distance - 0.05, p.distance + 0.05, 64);
+        const ringGeo = new THREE.RingGeometry(
+          p.distance - 0.05,
+          p.distance + 0.05,
+          64
+        );
         const ringMat = new THREE.MeshBasicMaterial({
-            color: 0xffffff,
-            side: THREE.DoubleSide,
+          color: 0xffffff,
+          side: THREE.DoubleSide,
         });
-        const ring = new THREE.Mesh(ringGeo, ringMat);
-        ring.rotation.x = Math.PI / 2;
-        scene.add(ring);
+        const orbitRing = new THREE.Mesh(ringGeo, ringMat);
+        orbitRing.rotation.x = Math.PI / 2;
+        scene.add(orbitRing);
 
         planetMeshes.push({
-            mesh,
-            distance: p.distance,
-            speed: p.speed,
-            angle: Math.random() * Math.PI * 2,
+          mesh,
+          distance: p.distance,
+          speed: p.speed,
+          angle: Math.random() * Math.PI * 2,
         });
-        });
-
-        planetMeshesRef.current = planetMeshes;
-
-        // Click handler
-        const handleClick = (event) => {
-        const rect = renderer.domElement.getBoundingClientRect();
-        mouseRef.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-        mouseRef.current.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-
-        raycasterRef.current.setFromCamera(mouseRef.current, camera);
-        const intersects = raycasterRef.current.intersectObjects(
-            planetMeshes.map((p) => p.mesh)
-        );
-
-        if (intersects.length > 0) {
-            const clickedPlanet = intersects[0].object.userData.planetName;
-            setSelectedPlanet(clickedPlanet);
-        }
-        };
-
-        renderer.domElement.addEventListener("click", handleClick);
-        renderer.domElement.style.cursor = "pointer";
-
-        // Animate
-        const animate = () => {
-    planetMeshes.forEach((p) => {
-        p.angle += p.speed;
-        p.mesh.position.x = p.distance * Math.cos(p.angle);
-        p.mesh.position.z = p.distance * Math.sin(p.angle);
+      }
     });
 
-    // === Background Motion ===
-    // Rotate the entire background group for movement illusion
-    scene.children.forEach((child, index) => {
-        if (child instanceof THREE.Points) {
-        // Different speeds for each layer
-        if (index === 1) {
-            // Main stars: very slow parallax rotation
-            child.rotation.y += 0.00008;
-            child.rotation.x += 0.00004;
-        } else if (index > 1 && index <= 9) {
-            // Galaxies: drift and rotation
-            child.rotation.z += 0.00015;
-            child.rotation.y += 0.00005;
-        } else if (index > 9 && index <= 14) {
-            // Nebulae: gentle swirling motion
-            child.rotation.y += 0.0001;
-            child.rotation.x += 0.00005;
-        } else {
-            // Asteroids and comets drift slightly
-            child.rotation.z += 0.0002;
-        }
-        }
-    });
+    planetMeshesRef.current = planetMeshes;
 
-    // === Subtle camera drift ===
-    camera.position.x += Math.sin(Date.now() * 0.0001) * 0.01;
-    camera.position.y += Math.cos(Date.now() * 0.0001) * 0.01;
-    camera.lookAt(0, 0, 0);
+    // Click detection
+    const handleClick = (event) => {
+      const rect = renderer.domElement.getBoundingClientRect();
+      mouseRef.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+      mouseRef.current.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
 
-    // === Animate comets ===
-    scene.children.forEach((child) => {
-        if (child instanceof THREE.Points && child.geometry.attributes.position.count < 50) {
-        const positions = child.geometry.attributes.position.array;
-        for (let i = 0; i < positions.length; i += 3) {
-            positions[i] += 0.5;
-            positions[i + 1] -= 0.2;
+      raycasterRef.current.setFromCamera(mouseRef.current, camera);
+      const intersects = raycasterRef.current.intersectObjects(
+        planetMeshes.map((p) => p.mesh)
+      );
 
-            if (positions[i] > 1000) {
-            positions[i] = -1000;
-            positions[i + 1] = (Math.random() - 0.5) * 1000;
-            }
-        }
-        child.geometry.attributes.position.needsUpdate = true;
-        }
-    });
-
-    controls.update();
-    renderer.render(scene, camera);
-    requestAnimationFrame(animate);
+      if (intersects.length > 0) {
+        setSelectedPlanet(intersects[0].object.userData.planetName);
+      }
     };
 
-        animate();
+    renderer.domElement.addEventListener("click", handleClick);
+    renderer.domElement.style.cursor = "pointer";
 
-        // Resize
-        const handleResize = () => {
-        camera.aspect = container.clientWidth / container.clientHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(container.clientWidth, container.clientHeight);
-        };
-        window.addEventListener("resize", handleResize);
+    // Animation Loop
+    const animate = () => {
+      planetMeshes.forEach((p) => {
+        p.angle += p.speed;
+
+        const x = p.distance * Math.cos(p.angle);
+        const z = p.distance * Math.sin(p.angle);
+
+        if (p.group) {
+          p.group.position.set(x, 0, z);
+        } else {
+          p.mesh.position.set(x, 0, z);
+        }
+
+        // Spin rotation
+        p.mesh.rotation.y += 0.01;
+      });
+
+      controls.update();
+      renderer.render(scene, camera);
+      requestAnimationFrame(animate);
+    };
+    animate();
+
+    // Resize
+    const handleResize = () => {
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(container.clientWidth, container.clientHeight);
+    };
+    window.addEventListener("resize", handleResize);
 
         return () => {
         renderer.domElement.removeEventListener("click", handleClick);
         controls.dispose();
         renderer.dispose();
         window.removeEventListener("resize", handleResize);
-        window.removeEventListener("wheel", wheelHandler); // Add this line
+        //window.removeEventListener("wheel", wheelHandler); // Add this line
         if (container) container.removeChild(renderer.domElement);
         };
     }, []);
@@ -553,39 +500,74 @@ export default function SolarSystem() {
                 ✕
                 </button>
 
-                <h2
-                style={{
-                    fontSize: "2em",
-                    marginTop: 0,
-                    marginBottom: "10px",
-                    background: "linear-gradient(45deg, #667eea 0%, #764ba2 100%)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                }}
-                >
-                {planetData[selectedPlanet].name}
-                </h2>
+            <h2
+              style={{
+                fontSize: "2em",
+                marginTop: 0,
+                marginBottom: "10px",
+                background: "linear-gradient(45deg, #667eea 0%, #764ba2 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              {planetData[selectedPlanet].name}
+            </h2>
 
-                <p style={{ fontSize: "1em", color: "#b0b0d0", marginBottom: "25px", fontStyle: "italic" }}>
-                {planetData[selectedPlanet].description}
-                </p>
+            <p
+              style={{
+                fontSize: "1em",
+                color: "#b0b0d0",
+                marginBottom: "25px",
+                fontStyle: "italic",
+              }}
+            >
+              {planetData[selectedPlanet].description}
+            </p>
 
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "15px", marginBottom: "20px" }}>
-                <div><strong style={{ color: "#8b8baa" }}>Diameter:</strong><p>{planetData[selectedPlanet].diameter}</p></div>
-                <div><strong style={{ color: "#8b8baa" }}>Distance:</strong><p>{planetData[selectedPlanet].distance}</p></div>
-                <div><strong style={{ color: "#8b8baa" }}>Day Length:</strong><p>{planetData[selectedPlanet].dayLength}</p></div>
-                <div><strong style={{ color: "#8b8baa" }}>Year Length:</strong><p>{planetData[selectedPlanet].yearLength}</p></div>
-                <div><strong style={{ color: "#8b8baa" }}>Moons:</strong><p>{planetData[selectedPlanet].moons}</p></div>
-                </div>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: "15px",
+                marginBottom: "20px",
+              }}
+            >
+              <div>
+                <strong style={{ color: "#8b8baa" }}>Diameter:</strong>
+                <p>{planetData[selectedPlanet].diameter}</p>
+              </div>
+              <div>
+                <strong style={{ color: "#8b8baa" }}>Distance:</strong>
+                <p>{planetData[selectedPlanet].distance}</p>
+              </div>
+              <div>
+                <strong style={{ color: "#8b8baa" }}>Day Length:</strong>
+                <p>{planetData[selectedPlanet].dayLength}</p>
+              </div>
+              <div>
+                <strong style={{ color: "#8b8baa" }}>Year Length:</strong>
+                <p>{planetData[selectedPlanet].yearLength}</p>
+              </div>
+              <div>
+                <strong style={{ color: "#8b8baa" }}>Moons:</strong>
+                <p>{planetData[selectedPlanet].moons}</p>
+              </div>
+            </div>
 
-                <div style={{ backgroundColor: "#2a2a4a", padding: "12px", borderRadius: "10px", marginBottom: "15px" }}>
-                <strong style={{ color: "#8b8baa" }}>Fun Fact:</strong>
-                <p>{planetData[selectedPlanet].facts}</p>
-                </div>
+            <div
+              style={{
+                backgroundColor: "#2a2a4a",
+                padding: "12px",
+                borderRadius: "10px",
+                marginBottom: "15px",
+              }}
+            >
+              <strong style={{ color: "#8b8baa" }}>Fun Fact:</strong>
+              <p>{planetData[selectedPlanet].facts}</p>
+            </div>
 
-            {/* Know More Button */}
             <button
-              onClick={() => handleNavigate()}
+              onClick={handleNavigate}
               style={{
                 width: "100%",
                 padding: "10px",
@@ -596,10 +578,13 @@ export default function SolarSystem() {
                 borderRadius: "8px",
                 cursor: "pointer",
                 fontWeight: "bold",
-                marginTop: "auto",
               }}
-              onMouseOver={(e) => (e.target.style.backgroundColor = "#764ba2")}
-              onMouseOut={(e) => (e.target.style.backgroundColor = "#667eea")}
+              onMouseOver={(e) =>
+                (e.target.style.backgroundColor = "#764ba2")
+              }
+              onMouseOut={(e) =>
+                (e.target.style.backgroundColor = "#667eea")
+              }
             >
               Know More
             </button>
@@ -607,16 +592,8 @@ export default function SolarSystem() {
         )}
       </div>
 
-        {/* 3D solar system canvas */}
-        <div
-        ref={containerRef}
-        style={{
-            flex: 1,
-            transition: "transform 0.5s ease",                       
-            transform: selectedPlanet ? "translateX(200px)" : "translateX(0)"  
-        }}
-        />
+      {/* 3D Scene */}
+      <div ref={containerRef} style={{ flex: 1 }} />
     </div>
-    );}
-        {/* 3D Canvas */}
-        
+  );
+}
