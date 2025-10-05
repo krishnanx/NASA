@@ -159,7 +159,7 @@ const MarsExplore = () => {
           {images.map((src, index) => (
             <button
               key={index}
-              onClick={() => handlePress(index + 1)}
+              onClick={() => handlePress(index)}
               className="relative group rounded-2xl overflow-hidden shadow-2xl hover:shadow-orange-500/50 hover:scale-105 transition-all duration-300 bg-gray-800"
             >
               {!loadedImages[index] && !imageErrors[index] && (
@@ -174,7 +174,7 @@ const MarsExplore = () => {
               )}
               <img
                 src={src}
-                alt={`Mars Surface ${index + 1}`}
+                alt={`Mars Surface ${index}`}
                 onLoad={() => handleImageLoad(index)}
                 onError={() => handleImageError(index)}
                 className={`w-full aspect-square object-cover transition-opacity duration-300 ${
