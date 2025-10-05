@@ -6,8 +6,6 @@ const Tooltip = () => {
     <StyledWrapper>
       <div className="item-hints">
         <div className="hint" data-position={4}>
-        
-        
           <div className="hint-content do--split-children">
             <p>Click to explore DEEP ZOOM</p>
           </div>
@@ -22,10 +20,10 @@ const StyledWrapper = styled.div`
   top: -10%;           /* adjust vertical position */
   left: 50%;           /* adjust horizontal */
   transform: translateX(-50%);
-  pointer-events: none; /* so canvas events are not blocked */
-   .hint-content.do--split-children {
+
+  .hint-content.do--split-children {
     font-size: 20px;  /* increase font size */
-}
+  }
 
   .item-hints .hint-dot {
     z-index: 3;
@@ -49,22 +47,14 @@ const StyledWrapper = styled.div`
     transform: translateX(-50%);
     z-index: 5;
     padding: 10px 15px;
-    opacity: 0;
-    visibility: hidden;
+    opacity: 1;         /* always visible */
+    visibility: visible; /* always visible */
     background: rgba(0,0,0,0.85);
     color: white;
     border-radius: 8px;
-    pointer-events: none;
     text-align: center;
     font-size: 1rem;
-    transition: opacity 0.4s ease;
-    font-weight:bold;
-  }
-
-  /* show tooltip when parent (.planet-image) is hovered */
-  .planet-image:hover & .hint-content {
-    opacity: 1;
-    visibility: visible;
+    font-weight: bold;
   }
 
   /* optional line pointing to dot */
@@ -79,6 +69,5 @@ const StyledWrapper = styled.div`
     background: rgba(0,0,0,0.85);
   }
 `;
-
 
 export default Tooltip;
