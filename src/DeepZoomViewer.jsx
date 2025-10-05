@@ -21,7 +21,8 @@ const DeepZoomViewer = () => {
   const [selectedImage, setSelectedImage] = useState(0);
    
 
-  const espNo = useSelector((state) => state.espNo)
+   const espNo = useSelector((state) => state.esp.espNo);
+
 
   useEffect(() => {
     const initViewer = async () => {
@@ -36,7 +37,7 @@ const DeepZoomViewer = () => {
         osdRef.current = OpenSeadragon({
           element: viewerRef.current,
           //tileSources: customDzi || imageList[selectedImage].url,
-          tileSources:  `/test_output/${espNo}/test_output.dzi`,
+          tileSources:  `http://localhost:8000/test_output/${espNo}`,
           
           prefixUrl: 'https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/images/',
           animationTime: 0.5,
