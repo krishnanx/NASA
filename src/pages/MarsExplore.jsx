@@ -107,16 +107,20 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setEspNo } from "../Store/espSlice";
 import './MarsExplore.css'; // 🔹 import the CSS
+import { useNavigate } from "react-router-dom";
 
 const MarsExplore = () => {
   const [loadedImages, setLoadedImages] = useState({});
   const [imageErrors, setImageErrors] = useState({});
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const images = Array.from({ length: 6 }, (_, i) => `/marsExplore/${i + 1}.jpg`);
 
   const handlePress = (espNo) => {
+    console.log("ESPNOOO: ",espNo);
     dispatch(setEspNo(espNo));
+    navigate("/planets/deepzoom");
   };
 
   const handleImageLoad = (index) => setLoadedImages(prev => ({ ...prev, [index]: true }));
