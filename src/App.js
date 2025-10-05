@@ -7,7 +7,7 @@ import Loader from "./components/Loader"; // renamed for consistency
 import MarsExplore from './pages/MarsExplore'
 import PlanetModel from "./components/PlanetsModel"
 import { Route,Routes,useLocation } from "react-router-dom";
-function App() {
+export default function App() {
   const location = useLocation();
 
   return (
@@ -33,4 +33,3 @@ function App() {
   );
 }
 
-export default App;
