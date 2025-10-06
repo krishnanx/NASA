@@ -20,12 +20,12 @@ const DeepZoomViewer = () => {
 
   // Relative fractions for marker placement for each image
   const relativeMarkers = {
-    0: [{ xFactor: 0.5, yFactor: 0.5, label: "Rover 1" }],
-    1: [{ xFactor: 0.6, yFactor: 0.7, label: "Rover 2" }],
-    2: [{ xFactor: 0.6, yFactor: 0.2, label: "Rover 3" }],
-    3: [{ xFactor: 0.7, yFactor: 0.8, label: "Rover 4" }],
-    4: [{ xFactor: 0.5, yFactor: 0.3, label: "Rover 5" }],
-    5: [{ xFactor: 0.7, yFactor: 0.6, label: "Rover 6" }],
+    0: [{ xFactor: 0.5, yFactor: 0.5, label: "Jezero Crater" }],
+    1: [{ xFactor: 0.6, yFactor: 0.5, label: "Viking 1" }],
+    2: [{ xFactor: 0.9, yFactor: 0.5, label: "Viking 2" }],
+    3: [{ xFactor: -0.5, yFactor: 0.5, label: "Insight Lander" }],
+    4: [{ xFactor: 0.5, yFactor: 0.3, label: "Opportunity Rover" }],
+    5: [{ xFactor: 2.8, yFactor: 0.4, label: "Spirit Rover" }],
   };
 
   useEffect(() => {
@@ -40,11 +40,31 @@ const DeepZoomViewer = () => {
         showNavigationControl: true,
       });
 
-      osdRef.current.addHandler("tile-load-failed", (event) => {
-        console.error("❌ Tile load failed:", event.tile.url);
-        setMessage("⚠️ Failed loading tiles, check console.");
+    osdRef.current.addHandler("tile-load-failed", (event) => {
+      console.error("❌ Tile load failed:", event.tile.url);
+      setMessage("⚠️ Failed loading tiles, check console.");
+    });
+
+    osdRef.current.addHandler("tile-loaded", (event) => {
+      console.log("✅ Tile loaded:", event.tile.url);
+      setMessage("✅ DZI loaded successfully");
+    });
+  }
+
+   // Add auto-rotate for portrait images
+      osdRef.current.addHandler("open", () => {
+        const item = osdRef.current.world.getItemAt(0);
+        if (!item) return;
+
+        const { x: width, y: height } = item.getContentSize();
+        if (height > width) {
+          item.setRotation(97); // Rotate portrait to landscape
+          osdRef.current.viewport.goHome(); // Reset zoom/pan for rotated image
+          console.log("🔄 Rotated portrait image to landscape");
+        }
       });
-    }
+    
+  
 
     if (espNo >= 0 && espNo <= 5) {
       const dziUrl = `http://192.168.22.33:8000/test_output/${espNo}/test_output.dzi`;

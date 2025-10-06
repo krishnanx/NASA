@@ -117,6 +117,34 @@ const MarsExplore = () => {
 
   const images = Array.from({ length: 6 }, (_, i) => `/marsExplore/${i + 1}.jpg`);
 
+   const marsImageInfo = [
+  {
+    title: "Jezerro Crater",
+    description: "Landing site of NASA's Perseverance rover, key for searching signs of ancient life."
+  },
+  {
+    title: "Chryse Planitia - Viking 1",
+    description: "Historic Viking 1 landing site, first successful U.S. Mars landing in 1976."
+  },
+  {
+    title: "Utopia Planitia - Viking 2",
+    description: "Viking 2 site, providing early insights into Martian soil and atmosphere."
+  },
+  {
+    title: "Elysium Planitia - InSight Lander",
+    description: "InSight studies Mars' interior and seismic activity to understand planetary formation."
+  },
+  {
+    title: "Meridiani Planum - Opportunity Rover",
+    description: "Opportunity explored hematite-rich rocks, revealing evidence of past water on Mars."
+  },
+  {
+    title: "Gusev Crater - Spirit Rover",
+    description: "Spirit examined volcanic rocks, uncovering Mars' geological diversity."
+  }
+];
+
+
   const handlePress = (espNo) => {
     console.log("ESPNOOO: ",espNo);
     dispatch(setEspNo(espNo));
@@ -147,7 +175,7 @@ const MarsExplore = () => {
         >
           Mars Exploration Gallery
         </h1>
-        <p className="text-gray-400 text-lg">
+        <p className="desc">
           Explore the Red Planet through stunning imagery
         </p>
 
@@ -155,35 +183,112 @@ const MarsExplore = () => {
 
 
         {/* Image Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" >
-          {images.map((src, index) => (
-            <button
-              key={index}
-              onClick={() => handlePress(index)}
-              className="relative group rounded-2xl overflow-hidden shadow-2xl hover:shadow-orange-500/50 hover:scale-105 transition-all duration-300 bg-gray-800"
-            >
-              {!loadedImages[index] && !imageErrors[index] && (
-                <div className="w-full aspect-square flex items-center justify-center bg-gray-800">
-                  <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-400"></div>
-                </div>
-              )}
-              {imageErrors[index] && (
-                <div className="w-full aspect-square flex flex-col items-center justify-center bg-gray-800 text-gray-500">
-                  <p>Image not found</p>
-                </div>
-              )}
-              <img
-                src={src}
-                alt={`Mars Surface ${index}`}
-                onLoad={() => handleImageLoad(index)}
-                onError={() => handleImageError(index)}
-                className={`w-full aspect-square object-cover transition-opacity duration-300 ${
-                  loadedImages[index] ? "opacity-100" : "opacity-0 absolute"
-                } group-hover:opacity-90`}
-              />
-            </button>
-          ))}
-        </div>
+<div className="mars-grid">
+  {images.map((src, index) => (
+    <button
+      key={index}
+      onClick={() => handlePress(index)}
+      className="mars-card"
+    >
+      <img
+        src={src}
+        alt={marsImageInfo[index].title}
+        onLoad={() => handleImageLoad(index)}
+        onError={() => handleImageError(index)}
+        className={`mars-image ${loadedImages[index] ? "visible" : "hidden"}`}
+      />
+
+      {/* Hover Overlay */}
+      <div className="mars-overlay">
+        <h3>{marsImageInfo[index].title}</h3>
+        <p>{marsImageInfo[index].description}</p>
+      </div>
+    </button>
+  ))}
+</div>
+
+<style>
+{`
+.mars-grid {
+
+padding:100px;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 5rem;
+}
+  .desc{
+  padding-top:30px;
+  color:white;
+  font-size:1.5rem;;
+  }
+
+.mars-card {
+  position: relative;
+  border: none;
+  padding: 0;
+  background: none;
+  overflow: hidden;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mars-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(255, 140, 0, 0.4);
+}
+
+.mars-image {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.3s ease;
+}
+
+.mars-image.hidden {
+  opacity: 0;
+}
+
+.mars-image.visible {
+  opacity: 1;
+}
+
+.mars-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  color: white;
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1rem;
+  transition: opacity 0.4s ease;
+}
+
+.mars-card:hover .mars-overlay {
+  opacity: 1;
+}
+
+.mars-overlay h3 {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 0.4rem;
+}
+
+.mars-overlay p {
+  font-size: 0.9rem;
+  max-width: 85%;
+  color: rgba(255, 255, 255, 0.85);
+}
+`}
+</style>
+
+
       </div>
     </div>
   );
