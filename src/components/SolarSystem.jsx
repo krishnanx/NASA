@@ -441,15 +441,16 @@ export default function SolarSystem() {
     //     return <Loader/>
     //   }
     return (
-    <div style={{ display: "flex", width: "100vw", minHeight: "100vh", overflow: "hidden", position: "relative" }}>
+    <div style={{ display: "flex", width: "100vw", minHeight: "100vh", overflow: "hidden", position: "start" }}>
         {/* Info Panel */}
 {/* heading*/}
         <h1
         style={{
+          textAlign: "left",
           position: "absolute",
           top: "30px",
           left: selectedPlanet ? "50%" : "50px",
-          transform: selectedPlanet ? "translateX(50%)" : "translateX(0)",
+          transform: selectedPlanet ? "translateX(0%)" : "translateX(0)",
           fontSize: "3em",
           fontWeight: "bold",
           background: "linear-gradient(45deg, #667eea 0%, #764ba2 100%)",
@@ -463,6 +464,27 @@ export default function SolarSystem() {
       >
         NASAverse
       </h1>
+      <p
+      style={{
+        textAlign: "left",
+          position: "absolute",
+          top: "110px",
+          left: selectedPlanet ? "50%" : "50px",
+          transform: selectedPlanet ? "translateX(0%)" : "translateX(0)",
+          fontSize: "1.5em",
+          fontWeight: "bold",
+          background: "linear-gradient(45deg, #667eea 0%, #764ba2 100%)",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+          margin: 0,
+          zIndex: 20,
+          transition: "all 0.5s ease",
+          pointerEvents: "none",
+
+        }}
+      >Embark on a cosmic journey! <br/>  Click each planet to discover its story
+
+      </p>
       <div
   style={{
     position: "absolute",
