@@ -24,8 +24,8 @@ const DeepZoomViewer = () => {
     1: [{ xFactor: 0.6, yFactor: 0.5, label: "Viking 1" }],
     2: [{ xFactor: 0.9, yFactor: 0.5, label: "Viking 2" }],
     3: [{ xFactor: -0.5, yFactor: 0.5, label: "Insight Lander" }],
-    4: [{ xFactor: 0.5, yFactor: 0.3, label: "Opportunity Rover" }],
-    5: [{ xFactor: 2.8, yFactor: 0.4, label: "Spirit Rover" }],
+    4: [{ xFactor: -0.1, yFactor: 0.121, label: "Opportunity Rover" }],
+    5: [{ xFactor: 2.8, yFactor: 0.5, label: "Spirit Rover" }],
   };
 
   useEffect(() => {
@@ -67,7 +67,7 @@ const DeepZoomViewer = () => {
   
 
     if (espNo >= 0 && espNo <= 5) {
-      const dziUrl = `http://192.168.22.33:8000/test_output/${espNo}/test_output.dzi`;
+      const dziUrl = `https://deepzoom.devark.co.in/${espNo}/test_output.dzi`;
       console.log("🛰️ Loading:", dziUrl);
       setMessage("Loading DZI...");
 
